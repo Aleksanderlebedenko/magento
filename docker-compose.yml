@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  webserver:
+    build: ./docker/webserver
+    image: magento
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/www/magento.test.loc.com/www/magento2:/var/www/html
+      #- ./docker/webserver/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    links:
+      - db
+
+  db:
+    image: mysql:5.7
+    ports: 
+      - "4407:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Lebedenko1
+      - MYSQL_DATABASE=magento
+      - MYSQL_USER=test_musql_user
+      - MYSQL_PASSWORD=Lebedenko1
